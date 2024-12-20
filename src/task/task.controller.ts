@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Put,
@@ -17,6 +18,7 @@ import {
 import { TaskService } from './task.service';
 import { Request, Response } from 'express';
 import { CreateTaskDto } from './create-task.dto';
+import { ValidationTaskPipe } from './validation-task/validation-task.pipe';
 
 @Controller('task')
 export class TaskController {
@@ -26,6 +28,7 @@ export class TaskController {
   @HttpCode(200)
   getTasks(@Req() req: Request, @Res() res: Response, @Query() query) {
     console.log(query);
+    console.log('entreando aqui');
     res.json(this.taskService.getTasks());
     // return this.taskService.getTasks();
   }
@@ -56,5 +59,29 @@ export class TaskController {
   @Delete()
   deleteTask() {
     return 'delete task';
+  }
+
+  @Get('pipes/number/:id')
+  getPipes(@Param('id', ParseIntPipe) id: number) {
+    console.log(id);
+    console.log(typeof id);
+    return id;
+  }
+
+  @Get('pipes/boolean/:status')
+  getPipesBoolean(@Param('status', ParseIntPipe) status: boolean) {
+    console.log(status);
+    console.log(typeof status);
+    return status;
+  }
+
+  @Get('/pipes/object')
+  getPipesObject(
+    @Query(ValidationTaskPipe) query: { name: string; age: number },
+  ) {
+    const { name, age } = query;
+    console.log(name, typeof name);
+    console.log(age, typeof age);
+    return { name, age };
   }
 }
