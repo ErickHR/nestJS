@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
   Param,
   Patch,
   Post,
@@ -22,6 +23,7 @@ export class TaskController {
   constructor(private taskService: TaskService) {}
 
   @Get()
+  @HttpCode(200)
   getTasks(@Req() req: Request, @Res() res: Response, @Query() query) {
     console.log(query);
     res.json(this.taskService.getTasks());
@@ -34,6 +36,7 @@ export class TaskController {
   }
 
   @Post()
+  @HttpCode(201)
   // @UsePipes(new ValidationPipe())
   createTask(@Body() body: CreateTaskDto) {
     return this.taskService.createTask(body);
