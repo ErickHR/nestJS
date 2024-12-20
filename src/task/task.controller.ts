@@ -30,7 +30,6 @@ export class TaskController {
   @HttpCode(200)
   getTasks(@Req() req: Request, @Res() res: Response, @Query() query) {
     console.log(query);
-    console.log('entreando aqui');
     res.json(this.taskService.getTasks());
     // return this.taskService.getTasks();
   }
