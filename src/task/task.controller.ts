@@ -21,13 +21,21 @@ import { Request, Response } from 'express';
 import { CreateTaskDto } from './create-task.dto';
 import { ValidationTaskPipe } from './validation-task/validation-task.pipe';
 import { GuardTaskGuard } from './guard-task/guard-task.guard';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('task')
+@ApiTags('task')
 export class TaskController {
   constructor(private taskService: TaskService) {}
 
   @Get()
   @HttpCode(200)
+  @ApiOperation({ summary: 'Get all tasks' })
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   getTasks(@Req() req: Request, @Res() res: Response, @Query() query) {
     console.log(query);
     res.json(this.taskService.getTasks());
@@ -89,6 +97,6 @@ export class TaskController {
   @Get('guard/test')
   @UseGuards(GuardTaskGuard)
   getGuard() {
-    return 'Guard'
+    return 'Guard';
   }
 }
