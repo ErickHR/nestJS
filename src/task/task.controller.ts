@@ -12,6 +12,7 @@ import {
   Query,
   Req,
   Res,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -19,6 +20,7 @@ import { TaskService } from './task.service';
 import { Request, Response } from 'express';
 import { CreateTaskDto } from './create-task.dto';
 import { ValidationTaskPipe } from './validation-task/validation-task.pipe';
+import { GuardTaskGuard } from './guard-task/guard-task.guard';
 
 @Controller('task')
 export class TaskController {
@@ -83,5 +85,11 @@ export class TaskController {
     console.log(name, typeof name);
     console.log(age, typeof age);
     return { name, age };
+  }
+
+  @Get('guard/test')
+  @UseGuards(GuardTaskGuard)
+  getGuard() {
+    return 'Guard'
   }
 }
