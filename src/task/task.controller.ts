@@ -10,9 +10,12 @@ import {
   Query,
   Req,
   Res,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { Request, Response } from 'express';
+import { CreateTaskDto } from './create-task.dto';
 
 @Controller('task')
 export class TaskController {
@@ -21,7 +24,7 @@ export class TaskController {
   @Get()
   getTasks(@Req() req: Request, @Res() res: Response, @Query() query) {
     console.log(query);
-    res.send('Hello Wasorld!');
+    res.json(this.taskService.getTasks());
     // return this.taskService.getTasks();
   }
 
@@ -31,7 +34,8 @@ export class TaskController {
   }
 
   @Post()
-  createTask(@Body() body) {
+  // @UsePipes(new ValidationPipe())
+  createTask(@Body() body: CreateTaskDto) {
     return this.taskService.createTask(body);
   }
 
